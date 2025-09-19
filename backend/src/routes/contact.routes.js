@@ -32,7 +32,7 @@ contactRouter.post('/contacts',async (req,res)=>{
     const {name, email, phone} = contactFormData;
     const uniqueId = uuid.v4();
 
-    if(emailRegexp.test(email) && (phone.length == 10 && mobileRegexp.test(phone))){
+    if(emailRegexp.test(email) && mobileRegexp.test(phone)){
         try{
             await runPostQuery(insertContactQuery,[uniqueId,name,email,phone]);
             
