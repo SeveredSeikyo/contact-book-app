@@ -1,0 +1,19 @@
+POST http://localhost:5000/contacts
+Content-Type: application/json
+
+{
+    "name": "John",
+    "email": "johndoe@example.com",
+    "phone": "9999999998"
+}
+
+###
+
+GET http://localhost:5000/contacts?page=1&limit=10
+
+###
+
+//use uuid to delete.
+
+DELETE http://localhost:5000/contact/
+
