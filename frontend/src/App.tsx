@@ -2,24 +2,23 @@ import { useEffect, useState } from 'react';
 import {default as axios} from 'axios';
 import ContactForm from './components/contactForm'
 import ContactList from './components/contactList';
-import type { formData } from './types/formData';
 import ContactPagination from './components/contactPagination';
 
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
-  const [contactsArray, setContactsArray] = useState<formData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("No Contacts to Display");
   const [contactListUpdated, setContactListUpdated] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
 
   const fetchContacts = async() => {
     try{
-      const response = await axios.get(`${baseUrl}/contacts?page=1&limit=15`);
-      const fetchedContacts = response.data;
-      setContactsArray(fetchedContacts);
+      const response = await axios.get(`${baseUrl}/contacts`);
+      console.log(response.data);
+      setCount(Math.ceil(response.data.length/10));
     }catch(error){
       setMessage("Error Fetching Contacts");
     }finally{
@@ -30,7 +29,7 @@ function App() {
 
   useEffect(() =>{
     fetchContacts();
-  },[contactListUpdated])
+  },[page,contactListUpdated])
 
   return (
     <div>
@@ -40,13 +39,18 @@ function App() {
       {isLoading? 
       <p>Loading...</p>
       :
-        contactsArray.length>0?
+        count>0?
         <>
           <ContactList 
-            contactsArray = {contactsArray}
             setContactListUpdated = {setContactListUpdated}
+            page={page}
+            contactListUpdated = {contactListUpdated}
           />
-          <ContactPagination count = {Math.ceil(contactsArray.length/10)} />
+          <ContactPagination 
+            count = {count}
+            page = {page}
+            setPage = {setPage} 
+          />
         </>
           :
           <p>{message}</p>

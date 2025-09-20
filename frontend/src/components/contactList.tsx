@@ -1,19 +1,37 @@
 import { default as axios } from 'axios';
 import type {formData}  from '../types/formData';
+import { useEffect, useState } from 'react';
+
+
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 
 const ContactList = (
     {
-        contactsArray, 
-        setContactListUpdated
+        setContactListUpdated,
+        page,
+        contactListUpdated
     }: 
     {
-        contactsArray: formData[]; 
-        setContactListUpdated: React.Dispatch<React.SetStateAction<boolean>>
+        setContactListUpdated: React.Dispatch<React.SetStateAction<boolean>>;
+        page: number;
+        contactListUpdated: boolean;
     },
 ) => {
+    const [contactsArray, setContactsArray] = useState<formData[]>([]);
 
-    console.log(contactsArray);
+    const fetchContacts = async() => {
+        try{
+          const response = await axios.get(`${baseUrl}/contacts?page=${page}&limit=10`);
+          const fetchedContacts = response.data;
+          console.log(fetchedContacts,page);
+          setContactsArray(fetchedContacts);
+        }catch(error){
+          console.log(error)
+        }finally{
+          setContactListUpdated(false);
+        }
+    }
 
     const deleteContact = async(uuid: string) => {
         try{
@@ -23,6 +41,10 @@ const ContactList = (
             console.log('Failed to Delete Contact')
         }
     }
+
+    useEffect(()=>{
+        fetchContacts();
+    },[page,contactListUpdated]);
 
     return(
         <>
