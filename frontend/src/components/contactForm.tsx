@@ -7,7 +7,8 @@ const baseUrl = import.meta.env.VITE_BACKEND_URL
 const emailRegexp = /^\S+@\S+\.\S+$/;
 const mobileRegexp = /^\d{10}$/;
 
-const ContactForm = () => {
+const ContactForm = ({setContactListUpdated}: {setContactListUpdated: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
     const [name, setName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [phone, setPhone] = useState<string>("")
@@ -21,8 +22,6 @@ const ContactForm = () => {
             phone
         }
 
-        console.log(name,email,phone,baseUrl);
-
         if(emailRegexp.test(email) && mobileRegexp.test(phone)){
 
             axios.post(`${baseUrl}/contacts`,contactData)
@@ -33,6 +32,7 @@ const ContactForm = () => {
                 setName("");
                 setEmail("");
                 setPhone("");
+                setContactListUpdated(true);
             })
             .catch((error)=>{
                 if(error.response?.data?.message){
@@ -41,6 +41,9 @@ const ContactForm = () => {
                     setMessage("Something went wrong");
                 }
             })
+            .finally(()=>{
+                setMessage("");
+            });
         }else{
             setMessage("Invalid Email or Phone Number");
         }

@@ -1,52 +1,43 @@
-import { useState, useEffect } from 'react';
-import {default as axios} from 'axios';
-
-interface formData{
-    name: string;
-    email: string;
-    phone: string;
-}
-
-const baseUrl = import.meta.env.VITE_BACKEND_URL;
+import { default as axios } from 'axios';
+import type {formData}  from '../types/formData';
 
 
+const ContactList = (
+    {
+        contactsArray, 
+        setContactListUpdated
+    }: 
+    {
+        contactsArray: formData[]; 
+        setContactListUpdated: React.Dispatch<React.SetStateAction<boolean>>
+    },
+) => {
 
-const ContactList = () => {
-    const [contactsArray, setContactsArray] = useState<formData[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [message, setMessage] = useState<string>("");
+    console.log(contactsArray);
 
-    useEffect(()=>{
-        axios.get(`${baseUrl}/contacts?page=1&limit=10`)
-        .then((response)=>{
-            setContactsArray(response.data);
-        })
-
-        if(contactsArray.length == 0){
-            setIsLoading(false);
-            setMessage("No contacts to Display");
+    const deleteContact = async(uuid: string) => {
+        try{
+            await axios.delete(`http://localhost:5000/contact/${uuid}`)
+            setContactListUpdated(true);
+        }catch(err){
+            console.log('Failed to Delete Contact')
         }
-
-        if(contactsArray){
-            setIsLoading(false);
-        }
-    },[])
+    }
 
     return(
         <>
-        {isLoading? 
-        <p>Loading..</p>
-        :
-        contactsArray.length>0?
-            contactsArray.map(item => {
-            <>
+        <ul>
+        {
+            contactsArray.map((item: formData)=>(
+            <div key={item.uuid}>
                 <li>{item.name}</li>
                 <li>{item.email}</li>
                 <li>{item.phone}</li>
-            </>
-        }):
-        <p>{message}</p>
+                <button onClick={()=>deleteContact(item.uuid)}>Delete</button>
+            </div>
+            ))
         }
+        </ul>
         </>
     )
 }

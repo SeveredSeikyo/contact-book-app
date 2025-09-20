@@ -4,13 +4,14 @@ const cors = require('cors');
 const contactRouter = require('./routes/contact.routes');
 
 dotenv.config();
-
 const app = express();
 
-const CLIENT_URL = process.env.CLIENT_URL; 
+const clientUrl = process.env.CLIENT_URL; 
+
+console.log(clientUrl);
 
 const corsValidOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:5173', `${CLIENT_URL}`]
+    origin: ['http://localhost:3000', 'http://localhost:5173', `${clientUrl}`]
 }
 
 console.log(corsValidOptions);
