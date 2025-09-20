@@ -13,6 +13,10 @@ const selectContactQuery = `
     SELECT uuid, name, email, phone FROM contacts LIMIT ? OFFSET ?;
 `
 
+const getContactsQuery = `
+    SELECT uuid, name, email, phone FROM contacts;
+`
+
 const deleteContactQuery = `
     DELETE FROM contacts WHERE uuid = ?;
 `
@@ -58,19 +62,29 @@ contactRouter.post('/contacts',async (req,res)=>{
 
 contactRouter.get('/contacts',async (req,res)=>{
     let {limit, page} = req.query;
-    console.log(limit, page);
     const limitNum = parseInt(limit);
     const pageNum = parseInt(page);
     const offset = (pageNum-1)*limitNum;
-    console.log(limitNum,pageNum,offset);
-    try{
-        const contacts = await runGetQuery(selectContactQuery, [limitNum, offset]);
-        res.send(contacts);
-    }catch(err){
-        res.status(400);
-        res.send({
-            message: err.message
-        });
+    if(limit){
+        try{
+            const contacts = await runGetQuery(selectContactQuery, [limitNum, offset]);
+            res.send(contacts);
+        }catch(err){
+            res.status(400);
+            res.send({
+                message: err.message
+            });
+        }
+    }else{
+        try{
+            const contacts = await runGetQuery(getContactsQuery);
+            res.send(contacts);
+        }catch(err){
+            res.status(400);
+            res.send({
+                message: err.message
+            });
+        }
     }
 });
 
