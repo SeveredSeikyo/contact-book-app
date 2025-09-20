@@ -41,12 +41,12 @@ const ContactForm = ({setContactListUpdated}: {setContactListUpdated: React.Disp
                     setMessage("Something went wrong");
                 }
             })
-            .finally(()=>{
-                setMessage("");
-            });
         }else{
             setMessage("Invalid Email or Phone Number");
         }
+        setTimeout(()=>{
+            setMessage("")
+        },1000);
     }
 
     return(

@@ -3,6 +3,7 @@ import {default as axios} from 'axios';
 import ContactForm from './components/contactForm'
 import ContactList from './components/contactList';
 import type { formData } from './types/formData';
+import ContactPagination from './components/contactPagination';
 
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
@@ -12,6 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("No Contacts to Display");
   const [contactListUpdated, setContactListUpdated] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
 
   const fetchContacts = async() => {
     try{
@@ -39,13 +41,17 @@ function App() {
       <p>Loading...</p>
       :
         contactsArray.length>0?
+        <>
           <ContactList 
             contactsArray = {contactsArray}
             setContactListUpdated = {setContactListUpdated}
           />
+          <ContactPagination count = {Math.ceil(contactsArray.length/10)} />
+        </>
           :
           <p>{message}</p>
       }
+      
     </div>
   )
 }
