@@ -17,7 +17,6 @@ function App() {
   const fetchContacts = async() => {
     try{
       const response = await axios.get(`${baseUrl}/contacts`);
-      console.log(response.data);
       setCount(Math.ceil(response.data.length/10));
     }catch(error){
       setMessage("Error Fetching Contacts");
@@ -30,6 +29,12 @@ function App() {
   useEffect(() =>{
     fetchContacts();
   },[page,contactListUpdated])
+
+  useEffect(() => {
+    if(page>count && count>0){
+      setPage(page-1);
+    }
+  },[page,count])
 
   return (
     <div>

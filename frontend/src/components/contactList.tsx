@@ -24,7 +24,6 @@ const ContactList = (
         try{
           const response = await axios.get(`${baseUrl}/contacts?page=${page}&limit=10`);
           const fetchedContacts = response.data;
-          console.log(fetchedContacts,page);
           setContactsArray(fetchedContacts);
         }catch(error){
           console.log(error)
@@ -35,7 +34,7 @@ const ContactList = (
 
     const deleteContact = async(uuid: string) => {
         try{
-            await axios.delete(`http://localhost:5000/contact/${uuid}`)
+            await axios.delete(`${baseUrl}/contact/${uuid}`)
             setContactListUpdated(true);
         }catch(err){
             console.log('Failed to Delete Contact')
