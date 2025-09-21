@@ -3,7 +3,7 @@ import {default as axios} from 'axios';
 import ContactForm from './components/contactForm'
 import ContactList from './components/contactList';
 import ContactPagination from './components/contactPagination';
-import ContactSearch from './components/contactSearch';
+// import ContactSearch from './components/contactSearch';
 
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
@@ -14,7 +14,7 @@ function App() {
   const [contactListUpdated, setContactListUpdated] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-  const [searchText, setSearchText] = useState<string>("");
+  // const [searchText, setSearchText] = useState<string>("");
 
 
   const fetchContacts = async() => {
