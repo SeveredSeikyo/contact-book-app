@@ -1,4 +1,4 @@
-import { useEffect, useState, type SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
 import {default as axios} from 'axios';
 import ContactForm from './components/contactForm'
 import ContactList from './components/contactList';
