@@ -7,11 +7,12 @@ dotenv.config();
 const app = express();
 
 const clientUrl = process.env.CLIENT_URL; 
+const customUrl = process.env.CLIENT_URL_CUSTOM
 
 console.log(clientUrl);
 
 const corsValidOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:5173', `${clientUrl}`]
+    origin: ['http://localhost:3000', 'http://localhost:5173', `${clientUrl}`,`${customUrl}`]
 }
 
 console.log(corsValidOptions);
