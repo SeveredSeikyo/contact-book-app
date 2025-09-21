@@ -107,4 +107,38 @@ contactRouter.delete('/contact/:id',async (req,res)=>{
     }
 })
 
-module.exports = contactRouter
+// 4. POST /contacts/list
+
+contactRouter.post('/contacts/list',async (req,res)=>{
+    const contactFormData = req.body;
+    console.log(contactFormData);
+
+    contactFormData.forEach(async(element) => {
+
+        const {name, email, phone} = element;
+        const uniqueId = uuid.v4();
+
+        if(emailRegexp.test(email) && mobileRegexp.test(phone)){
+            try{
+                await runPostQuery(insertContactQuery,[uniqueId,name,email,phone]);
+                
+                res.status(201);
+                res.send({
+                    message: "Contact Inserted Successfully"
+                });
+            }catch(err){
+                res.status(400);
+                res.send({
+                    message: err.message
+                });
+            }
+        }
+        else{
+            res.status(400);
+            res.send("Invalid Constraints");
+        }
+        
+    });    
+})
+
+module.exports = contactRouter;
