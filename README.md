@@ -19,6 +19,12 @@
 #### 3. DATABASE
 1. SQLITE DB
 
+### KEY FEATURES:
+- Form for adding contacts with validation.
+- List to display contacts.
+- Delete functionality.
+- Pagination for fetching contacts.
+
 To Execute a **Development Environment**, Type the Following Commands:
 
 1. For Backend/API
