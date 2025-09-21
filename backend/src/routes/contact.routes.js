@@ -18,7 +18,8 @@ const insertContactQuery = `
 `
 
 const selectContactQuery = `
-    SELECT uuid, name, email, phone FROM contacts LIMIT ? OFFSET ?;
+    SELECT uuid, name, email, phone FROM contacts LIMIT ? OFFSET ?
+    WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?;
 `
 
 const getContactsQuery = `
@@ -84,13 +85,22 @@ contactRouter.post('/contacts',async (req,res)=>{
 // 2. GET /contacts
 
 contactRouter.get('/contacts',async (req,res)=>{
-    let {limit, page} = req.query;
+    let {limit, page, text} = req.query;
+    const queryText = `%${text}%`;
     const limitNum = parseInt(limit);
     const pageNum = parseInt(page);
     const offset = (pageNum-1)*limitNum;
     if(limit){
         try{
-            const contacts = await runGetQuery(selectContactQuery, [limitNum, offset]);
+            const contacts = await runGetQuery(
+                selectContactQuery, 
+                [
+                    limitNum, 
+                    offset,
+                    queryText,
+                    queryText,
+                    queryText
+                ]);
             res.send(contacts);
         }catch(err){
             res.status(400);
@@ -100,7 +110,14 @@ contactRouter.get('/contacts',async (req,res)=>{
         }
     }else{
         try{
-            const contacts = await runGetQuery(getContactsQuery);
+            const contacts = await runSearchQuery(
+                searchContactsQuery,
+                [ 
+                    queryText,
+                    queryText,
+                    queryText
+                ]
+            );
             res.send(contacts);
         }catch(err){
             res.status(400);
