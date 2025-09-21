@@ -28,6 +28,7 @@ To Execute a **Development Environment**, Type the Following Commands:
     C:\>git clone https://github.com/SeveredSeikyo/contact-book-app
     C:\>cd contact-book-app
     C:\contact-book-app\>cd backend
+    C:\contact-book-app\backend\>copy C:\contact-book-app\backend\.env.example .env
     C:\contact-book-app\backend\>npm install
     C:\contact-book-app\backend\>npm start
 
@@ -40,6 +41,7 @@ To Execute a **Development Environment**, Type the Following Commands:
     C:\>git clone https://github.com/SeveredSeikyo/contact-book-app
     C:\>cd contact-book-app
     C:\contact-book-app\>cd frontend
+    C:\contact-book-app\frontend\>copy C:\contact-book-app\frontend\.env.example .env
     C:\contact-book-app\frontend\>npm install
     C:\contact-book-app\frontend\>npm run dev
 
