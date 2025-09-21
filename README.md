@@ -47,6 +47,9 @@ To Execute a **Development Environment**, Type the Following Commands:
 
     ```
 
+**NOTE:** **.env.example** is a pre-written environment file created to assign environmental variables to actual project. **.env** contains environmental vairables that needed to connect Frontend and Backend.
+
+
 To Test the APIs directly, Change Directory to Backend **cd backend** and open **test.http** in VSCode or Any other code editor.
 
 ```console
