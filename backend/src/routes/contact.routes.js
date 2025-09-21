@@ -17,10 +17,16 @@ const insertContactQuery = `
     INSERT INTO contacts( uuid, name, email, phone ) VALUES( ?, ?, ?, ?);
 `
 
-const selectContactQuery = `
-    SELECT uuid, name, email, phone FROM contacts LIMIT ? OFFSET ?
-    WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?;
+const searchContactsQuery = `
+    SELECT uuid, name, email, phone FROM contacts
+    WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?
+    LIMIT ? OFFSET ?;
 `
+
+const selectContactQuery = `
+    SELECT uuid, name, email, phone FROM contacts LIMIT ? OFFSET ?;
+`
+
 
 const getContactsQuery = `
     SELECT uuid, name, email, phone FROM contacts;
@@ -33,11 +39,6 @@ const deleteContactQuery = `
 const updateContactQuery = `
     UPDATE contacts SET name = ?, email = ?, phone = ? 
     WHERE uuid = ?; 
-`
-
-const searchContactsQuery = `
-    SELECT uuid, name, email, phone FROM contacts 
-    WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?;
 `
 
 const fetchContactQuery = `
@@ -82,7 +83,7 @@ contactRouter.post('/contacts',async (req,res)=>{
     
 })
 
-// 2. GET /contacts
+// 2. GET /contacts include Limit, Offset and Search
 
 contactRouter.get('/contacts',async (req,res)=>{
     let {limit, page, text} = req.query;
@@ -90,17 +91,51 @@ contactRouter.get('/contacts',async (req,res)=>{
     const limitNum = parseInt(limit);
     const pageNum = parseInt(page);
     const offset = (pageNum-1)*limitNum;
-    if(limit){
+    if(limit & queryText){
+        try{
+            const contacts = await runGetQuery(
+                searchContactsQuery, 
+                [
+                    queryText,
+                    queryText,
+                    queryText,
+                    limitNum,
+                    offset
+                ]);
+            res.send(contacts);
+        }catch(err){
+            res.status(400);
+            res.send({
+                message: err.message
+            });
+        }
+    }
+    else if(limit){
         try{
             const contacts = await runGetQuery(
                 selectContactQuery, 
                 [
-                    limitNum, 
-                    offset,
+                    limitNum,
+                    offset
+                ]);
+            res.send(contacts);
+        }catch(err){
+            res.status(400);
+            res.send({
+                message: err.message
+            });
+        }
+    }
+    else if(queryText){
+        try{
+            const contacts = await runSearchQuery(
+                searchContactsQuery,
+                [ 
                     queryText,
                     queryText,
                     queryText
-                ]);
+                ]
+            );
             res.send(contacts);
         }catch(err){
             res.status(400);
@@ -110,13 +145,8 @@ contactRouter.get('/contacts',async (req,res)=>{
         }
     }else{
         try{
-            const contacts = await runSearchQuery(
-                searchContactsQuery,
-                [ 
-                    queryText,
-                    queryText,
-                    queryText
-                ]
+            const contacts = await runGetQuery(
+                getContactsQuery,
             );
             res.send(contacts);
         }catch(err){
@@ -205,30 +235,6 @@ contactRouter.patch('/contact/:id',async (req,res)=>{
         })
     }
 });
-
-// 6. GET /contacts/search
-
-contactRouter.get('/contacts/search', async(req,res)=>{
-
-    const { text } = req.query
-    const queryText = `%${text}%`
-    
-    console.log(queryText);
-
-    try{
-        const contacts = await runSearchQuery( 
-            searchContactsQuery, 
-            [ queryText, queryText, queryText ]
-        );
-        console.log(contacts);
-    }catch(err){
-        res.status(400)
-        res.send({
-            message: err.message
-        })
-    }
-
-})
 
 
 module.exports = contactRouter;

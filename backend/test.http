@@ -117,4 +117,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:5000/contacts
+GET http://localhost:5000/contacts?page=1&limit=10
