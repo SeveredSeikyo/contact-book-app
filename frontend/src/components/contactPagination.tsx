@@ -14,6 +14,7 @@ const ContactPagination = (
 ) => {
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        console.log(event);
         setPage(value);
     }
 
