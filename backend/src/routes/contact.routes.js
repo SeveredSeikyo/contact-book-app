@@ -88,10 +88,11 @@ contactRouter.post('/contacts',async (req,res)=>{
 contactRouter.get('/contacts',async (req,res)=>{
     let {limit, page, text} = req.query;
     const queryText = `%${text}%`;
+    console.log(queryText, text);
     const limitNum = parseInt(limit);
     const pageNum = parseInt(page);
     const offset = (pageNum-1)*limitNum;
-    if(limit & queryText){
+    if(limit & text){
         try{
             const contacts = await runGetQuery(
                 searchContactsQuery, 
@@ -126,7 +127,7 @@ contactRouter.get('/contacts',async (req,res)=>{
             });
         }
     }
-    else if(queryText){
+    else if(text){
         try{
             const contacts = await runSearchQuery(
                 searchContactsQuery,
