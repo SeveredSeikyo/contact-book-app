@@ -82,7 +82,7 @@ const ContactForm = ({setContactListUpdated}: {setContactListUpdated: React.Disp
                 <div className="flex flex-col gap-2">
                     <label htmlFor="phone">Contact Phone:</label>
                     <input 
-                        type="number" 
+                        type="tel" 
                         name="phone" 
                         id="phone" 
                         placeholder="Enter Contact Phone"

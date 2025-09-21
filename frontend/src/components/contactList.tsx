@@ -54,7 +54,7 @@ const ContactList = (
                 contactsArray.map((item: formData)=>(
                 <li 
                     key={item.uuid}
-                    className="w-max px-5 py-5 bg-blue-400 text-white items-center flex gap-2 rounded"
+                    className="w-70 px-5 py-5 bg-blue-400 text-white items-center justify-between flex gap-2 rounded"
                 >
                     <div>
                         <h1 className='text-2xl'>{item.name}</h1>
