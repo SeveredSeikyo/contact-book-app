@@ -44,16 +44,17 @@ To Execute a **Development Environment**, Type the Following Commands:
     C:\contact-book-app\frontend\>npm run dev
 
     ```
+
 To Test the APIs directly, Change Directory to Backend **cd backend** and open **test.http** in VSCode or Any other code editor.
 
-    ```console
+```console
 
-    C:\>git clone https://github.com/SeveredSeikyo/contact-book-app
-    C:\>cd contact-book-app
-    C:\contact-book-app\>cd backend
-    C:\contact-book-app\backend\>npm install
-    C:\contact-book-app\backend\>npm start
+C:\>git clone https://github.com/SeveredSeikyo/contact-book-app
+C:\>cd contact-book-app
+C:\contact-book-app\>cd backend
+C:\contact-book-app\backend\>npm install
+C:\contact-book-app\backend\>npm start
 
-    ```
+```
 
 **test.http** is a pre-written file with sample data and API points written for fast testing.
