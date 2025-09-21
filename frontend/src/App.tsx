@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type SetStateAction } from 'react';
 import {default as axios} from 'axios';
 import ContactForm from './components/contactForm'
 import ContactList from './components/contactList';
 import ContactPagination from './components/contactPagination';
+import ContactSearch from './components/contactSearch';
 
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
@@ -13,6 +14,8 @@ function App() {
   const [contactListUpdated, setContactListUpdated] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
+  const [searchText, setSearchText] = useState<string>("");
+
 
   const fetchContacts = async() => {
     try{
@@ -41,7 +44,8 @@ function App() {
       className="
         flex flex-col justify-start items-center w-screen p-5 gap-10
         bg-gray-700 min-h-screen h-full text-white
-      ">
+      "
+    >
       <ContactForm 
         setContactListUpdated = {setContactListUpdated}
       />
