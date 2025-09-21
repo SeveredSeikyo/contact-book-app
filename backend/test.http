@@ -103,3 +103,18 @@ Content-Type: application/json
     "phone": "5558901234"
   }
 ]
+
+###
+
+PATCH http://localhost:5000/contact/1
+Content-Type: application/json
+
+{
+  "name": "Keven",
+  "email": "kevin@example.com",
+  "phone": "1234567991"
+}
+
+###
+
+GET http://localhost:5000/contacts/search?text=kevin
