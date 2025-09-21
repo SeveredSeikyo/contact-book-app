@@ -1,7 +1,7 @@
 import { default as axios } from 'axios';
 import type {formData}  from '../types/formData';
 import { useEffect, useState } from 'react';
-
+import { MdDelete } from "react-icons/md";
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -46,20 +46,35 @@ const ContactList = (
     },[page,contactListUpdated]);
 
     return(
-        <>
-        <ul>
-        {
-            contactsArray.map((item: formData)=>(
-            <div key={item.uuid}>
-                <li>{item.name}</li>
-                <li>{item.email}</li>
-                <li>{item.phone}</li>
-                <button onClick={()=>deleteContact(item.uuid)}>Delete</button>
-            </div>
-            ))
-        }
-        </ul>
-        </>
+        <div>
+            <ul 
+                className="flex flex-row flex-wrap gap-5 max-auto px-6 items-start justify-center w-90vh h-full"
+            >
+            {
+                contactsArray.map((item: formData)=>(
+                <li 
+                    key={item.uuid}
+                    className="w-max px-5 py-5 bg-blue-400 text-white items-center flex gap-2 rounded"
+                >
+                    <div>
+                        <h1 className='text-2xl'>{item.name}</h1>
+                        <p>{item.email}</p>
+                        <p>{item.phone}</p>
+                    </div>
+                    <div>
+                        <button 
+                            onClick={()=>deleteContact(item.uuid)}
+                            key={item.uuid}
+                            className="rounded border-none h-10 bg-red-500 text-white w-max px-3 mx-auto"
+                        >
+                            <MdDelete />
+                        </button>
+                    </div>
+                </li>
+                ))
+            }
+            </ul>
+        </div>
     )
 }
 

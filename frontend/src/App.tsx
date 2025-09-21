@@ -37,7 +37,11 @@ function App() {
   },[page,count])
 
   return (
-    <div>
+    <div 
+      className="
+        flex flex-col justify-start items-center w-screen p-5 gap-10
+        bg-gray-700 min-h-screen h-full text-white
+      ">
       <ContactForm 
         setContactListUpdated = {setContactListUpdated}
       />
@@ -60,7 +64,6 @@ function App() {
           :
           <p>{message}</p>
       }
-      
     </div>
   )
 }

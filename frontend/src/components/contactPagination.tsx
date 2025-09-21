@@ -18,16 +18,18 @@ const ContactPagination = (
     }
 
     return(
-        <Stack spacing={2} >
-            <Pagination 
-                count={count} 
-                variant='outlined' 
-                color='primary' 
-                shape='rounded'
-                page={page}
-                onChange={handlePageChange} 
-            />
-        </Stack>
+        <div>
+            <Stack spacing={2} >
+                <Pagination 
+                    count={count} 
+                    color='primary' 
+                    shape='rounded'
+                    page={page}
+                    onChange={handlePageChange} 
+                    size='large'
+                />
+            </Stack>
+        </div>
     )
 }
 
