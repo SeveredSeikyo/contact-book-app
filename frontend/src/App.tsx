@@ -3,7 +3,7 @@ import {default as axios} from 'axios';
 import ContactForm from './components/contactForm'
 import ContactList from './components/contactList';
 import ContactPagination from './components/contactPagination';
-// import ContactSearch from './components/contactSearch';
+import ContactSearch from './components/contactSearch';
 
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
@@ -14,12 +14,13 @@ function App() {
   const [contactListUpdated, setContactListUpdated] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-  // const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>("");
 
 
   const fetchContacts = async() => {
+    console.log(searchText)
     try{
-      const response = await axios.get(`${baseUrl}/contacts`);
+      const response = await axios.get(`${baseUrl}/contacts?text=${searchText}`);
       setCount(Math.ceil(response.data.length/10));
     }catch(error){
       setMessage("Error Fetching Contacts");
@@ -31,7 +32,7 @@ function App() {
 
   useEffect(() =>{
     fetchContacts();
-  },[page,contactListUpdated])
+  },[page,contactListUpdated,searchText])
 
   useEffect(() => {
     if(page>count && count>0){
@@ -49,6 +50,10 @@ function App() {
       <ContactForm 
         setContactListUpdated = {setContactListUpdated}
       />
+      <ContactSearch
+        searchText={searchText}
+        setSearchText={setSearchText}
+      />
       {isLoading? 
       <p>Loading...</p>
       :
@@ -58,6 +63,7 @@ function App() {
             setContactListUpdated = {setContactListUpdated}
             page={page}
             contactListUpdated = {contactListUpdated}
+            searchText={searchText}
           />
           <ContactPagination 
             count = {count}

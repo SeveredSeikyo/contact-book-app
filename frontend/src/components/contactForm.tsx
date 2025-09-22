@@ -54,7 +54,7 @@ const ContactForm = ({setContactListUpdated}: {setContactListUpdated: React.Disp
 
     return(
         <div className = "w-[90vw] mx-auto p-6 border-none rounded-xl shadow-lg bg-gray-800">
-            <form onSubmit={addContact} className="flex flex-col w-full h-full gap-2 text-white">
+            <form onSubmit={addContact} className="flex flex-col w-full h-full gap-4 text-white">
                 <div className="flex flex-col gap-2">
                     <label htmlFor="name">Contact Name:</label>
                     <input 

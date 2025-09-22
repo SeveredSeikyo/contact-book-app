@@ -1,3 +1,5 @@
+import { MdSearch } from "react-icons/md";
+
 const ContactSearch = (
     { 
         searchText, 
@@ -10,14 +12,18 @@ const ContactSearch = (
 ) => {
 
     return(
-        <div>
+        <div className="flex p-2 items-center rounded-full m-0 border-white border-2 border-white w-[90%]">
+            <MdSearch className="text-2xl text-white" />
             <input
                 type="text"
                 name="search"
                 id="search"
-                placeholder="Search using contact name or email or phone"
+                placeholder="Contact Name/Email/Phone"
                 value={searchText}
-                onChange={(e)=>setSearchText(e.target.value)} 
+                onChange={(e)=>{
+                    setSearchText(e.target.value)
+                }}
+                className="px-5 h-10 w-70 border-none outline-none" 
             />
         </div>
     )
