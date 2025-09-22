@@ -121,7 +121,7 @@ GET http://localhost:5000/contacts?page=1&limit=10&text=kevin
 
 ###
 
-GET http://localhost:5000/contacts?text=kevin
+GET http://localhost:5000/contacts?text=
 
 ###
 
@@ -129,4 +129,8 @@ GET http://localhost:5000/contacts
 
 ###
 
-GET http://localhost:5000/contacts?page=2&limit=10
+GET http://localhost:5000/contacts?page=1&limit=10&text=
+
+###
+
+GET http://localhost:5000/contact/c67cd08b-7037-42c1-98ec-58842e21886d

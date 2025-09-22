@@ -29,7 +29,8 @@ const selectContactQuery = `
 
 
 const getContactsQuery = `
-    SELECT uuid, name, email, phone FROM contacts;
+    SELECT uuid, name, email, phone FROM contacts
+    WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?;
 `
 
 const deleteContactQuery = `
@@ -87,12 +88,11 @@ contactRouter.post('/contacts',async (req,res)=>{
 
 contactRouter.get('/contacts',async (req,res)=>{
     let {limit, page, text} = req.query;
-    const queryText = `%${text}%`;
-    console.log(queryText, text);
+    let queryText = `%${text}%`;
     const limitNum = parseInt(limit);
     const pageNum = parseInt(page);
     const offset = (pageNum-1)*limitNum;
-    if(limit & text){
+    if(limit && text){
         try{
             const contacts = await runGetQuery(
                 searchContactsQuery, 
@@ -127,27 +127,16 @@ contactRouter.get('/contacts',async (req,res)=>{
             });
         }
     }
-    else if(text){
+    else{
+        if(text == undefined) queryText='%%'
         try{
             const contacts = await runSearchQuery(
-                searchContactsQuery,
+                getContactsQuery,
                 [ 
                     queryText,
                     queryText,
-                    queryText
+                    queryText,
                 ]
-            );
-            res.send(contacts);
-        }catch(err){
-            res.status(400);
-            res.send({
-                message: err.message
-            });
-        }
-    }else{
-        try{
-            const contacts = await runGetQuery(
-                getContactsQuery,
             );
             res.send(contacts);
         }catch(err){
@@ -236,6 +225,22 @@ contactRouter.patch('/contact/:id',async (req,res)=>{
         })
     }
 });
+
+// // 6. GET /contact/:id
+
+// contactRouter.get('/contact/:id', async (req,res)=>{
+//     const { id } = req.params.id
+//     try{
+//         const contact = await runFetchQuery(fetchContactQuery, id );
+//         res.status(201);
+//         res.send(contact);
+//     }catch(err){
+//         res.status(402);
+//         res.send({
+//             message: "Bad Request"
+//         })
+//     }
+// })
 
 
 module.exports = contactRouter;
